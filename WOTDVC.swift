@@ -28,8 +28,10 @@ class WOTDVC: UIViewController {
         
         print(wotd?.word ?? "Not Yet")
         
-         wordLabel.text = wotd?.word
+        wordLabel.text = wotd?.word
         noteLabel.text = wotd?.note
+        defLabel.text = wotd?.definitions[0].text
+        exLabel.text = wotd?.examples[0].text
         
     
         // Do any additional setup after loading the view.

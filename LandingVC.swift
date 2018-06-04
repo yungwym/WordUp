@@ -11,7 +11,8 @@ import UIKit
 class LandingVC: UIViewController {
     
     //MARK: Variables & Constants
-     var wordItem: WordEntry.FullWordInfo?
+    var wordItem: WordEntry.FullWordInfo?
+    var proItem: [PronounceEntry]?
     
 
     override func viewDidLoad() {
@@ -21,6 +22,11 @@ class LandingVC: UIViewController {
             
             self.wordItem = wordItem
             
+        }
+        
+        NetworkRequests.requestPronounce { (proItem) in
+            
+            self.proItem = proItem
         }
         
     }

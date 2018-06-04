@@ -37,9 +37,16 @@ struct WordEntry {
     }
 }
 
+struct PronounceEntry: Decodable {
+    
+    let rawType: String
+    let seq: Int
+    let raw: String
+}
 
 struct NetworkRequests {
     
+    //MARK: RequestWOTD
     
     static func requestWOTD(_ completionHandler: @escaping (WordEntry.FullWordInfo) -> ()) {
         
@@ -98,6 +105,50 @@ struct NetworkRequests {
     }
     
     
+    //MARK: RequestPronounce
     
     
+    
+    static func requestPronounce(_ completionHandler: @escaping ([PronounceEntry])->()) {
+        
+        let apiKey = "6fd0c45761938ff99e50102bd8e0939ff52853333bc6e34e9"
+        let components = URLComponents(string: "https://api.wordnik.com/v4/word.json/fallacious/pronunciations?useCanonical=false&typeFormat=ahd&limit=50&api_key=\(apiKey)")!
+        var request = URLRequest(url: components.url!)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        _ = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode == 200 else {
+                print("An error occured, problem with the status code")
+                return
+            }
+            
+            guard error == nil else {
+                print(#line, error!.localizedDescription)
+                print(NSString.init(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data was returned")
+                return
+            }
+            
+            guard let pronounceInfo = try? JSONDecoder().decode([PronounceEntry].self, from: data) else {
+                print("The data returned for Pronounce Request was not JSON")
+                return
+            }
+            
+            DispatchQueue.main.async(execute: { () -> Void in
+                completionHandler(pronounceInfo)
+                
+            })
+            
+            print(pronounceInfo[0].raw)
+            
+            
+        }).resume()
+        
+    }
+
 }
