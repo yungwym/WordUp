@@ -26,8 +26,6 @@ class WOTDVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(wotd?.word ?? "Not Yet")
-        
         wordLabel.text = wotd?.word
         noteLabel.text = wotd?.note
         defLabel.text = wotd?.definitions[0].text

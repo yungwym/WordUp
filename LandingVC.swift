@@ -21,20 +21,32 @@ class LandingVC: UIViewController {
         NetworkRequests.requestWOTD { (wordItem) in
             
             self.wordItem = wordItem
+            print("\(String(describing: self.wordItem?.word))REQUEST WOTD")
+            
+            NetworkRequests.requestPronounce(forWord: (self.wordItem?.word)!, { (proItem) in
+                
+                self.proItem = proItem
+                
+                
+            })
             
         }
         
-        NetworkRequests.requestPronounce { (proItem) in
-            
-            self.proItem = proItem
-        }
+//        NetworkRequests.requestPronounce { (proItem) in
+//
+//            self.proItem = proItem
+//            print("REQUEST PRONOUNCE")
+//        }
+        
+        
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        guard let wotdVC = segue.destination as? WOTDVC else { return }
-        wotdVC.wotd = self.wordItem
+                
+        let tabBar = segue.destination as? UITabBarController
+        let wotdVC = tabBar?.viewControllers?.first as? WOTDVC
+        wotdVC?.wotd = self.wordItem
         
     }
 

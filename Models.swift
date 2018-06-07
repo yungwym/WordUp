@@ -51,19 +51,23 @@ struct NetworkRequests {
     static func requestWOTD(_ completionHandler: @escaping (WordEntry.FullWordInfo) -> ()) {
         
         
-        let yearNum = arc4random_uniform(10) + 10
-        let monthNum = arc4random_uniform(05) + 1
-        let dayNum = arc4random_uniform(29) + 1
+//        let yearNum = arc4random_uniform(10) + 10
+//        let monthNum = arc4random_uniform(05) + 1
+//        let dayNum = arc4random_uniform(29) + 1
+//
+//        let monthS = String(format: "%02d", arguments: [monthNum])
+//        let DayS = String(format: "%02d", arguments: [dayNum])
+//
+//        let randomDate = ("20\(yearNum)-\(monthS)-\(DayS)")
         
-        let monthS = String(format: "%02d", arguments: [monthNum])
-        let DayS = String(format: "%02d", arguments: [dayNum])
-        
-        let randomDate = ("20\(yearNum)-\(monthS)-\(DayS)")
-        
-        print("DATE: \(randomDate)")
+//        let dateList = ["2018-05-03","2018-04-01","2018-03-15","2018-01-15","2018-05-04","2018-05-05"]
+//
+//        let date = arc4random_uniform(UInt32(Int(dateList.count)))
+//
+//        print("DATE: \(dateList)")
         
         let apiKey = "6fd0c45761938ff99e50102bd8e0939ff52853333bc6e34e9"
-        let components = URLComponents(string: "https://api.wordnik.com/v4/words.json/wordOfTheDay?date=\(randomDate)&api_key=\(apiKey)")!
+        let components = URLComponents(string: "https://api.wordnik.com/v4/words.json/wordOfTheDay?date=2018-02-17&api_key=\(apiKey)")!
         var request = URLRequest(url: components.url!)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
@@ -109,10 +113,10 @@ struct NetworkRequests {
     
     
     
-    static func requestPronounce(_ completionHandler: @escaping ([PronounceEntry])->()) {
+    static func requestPronounce(forWord word: String, _ completionHandler: @escaping ([PronounceEntry])->()) {
         
         let apiKey = "6fd0c45761938ff99e50102bd8e0939ff52853333bc6e34e9"
-        let components = URLComponents(string: "https://api.wordnik.com/v4/word.json/fallacious/pronunciations?useCanonical=false&typeFormat=ahd&limit=50&api_key=\(apiKey)")!
+        let components = URLComponents(string: "https://api.wordnik.com/v4/word.json/\(word)/pronunciations?useCanonical=false&typeFormat=ahd&limit=50&api_key=\(apiKey)")!
         var request = URLRequest(url: components.url!)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
@@ -144,7 +148,9 @@ struct NetworkRequests {
                 
             })
             
-            print(pronounceInfo[0].raw)
+            
+            print(components)
+            print(pronounceInfo)
             
             
         }).resume()
