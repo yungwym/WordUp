@@ -14,22 +14,36 @@ class LandingVC: UIViewController {
     var wordItem: WordEntry.FullWordInfo?
     var proItem: [PronounceEntry]?
     
+    
+    var wordDetails: WordAPI.WordWithDetails?
+    var wordList: WordAPI.WordList?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        WordAPI.requestWORDSLIST(forWord: "tween") { (wordList) in
+            
+            self.wordList = wordList
+        }
+        
+        
+        WordAPI.requestWORDSAPI(forWord: "tween") { (wordDetails) in
+            
+            self.wordDetails = wordDetails
+        }
 
-        NetworkRequests.requestWOTD { (wordItem) in
-            
-            self.wordItem = wordItem
-            print("\(String(describing: self.wordItem?.word))REQUEST WOTD")
-            
-            NetworkRequests.requestPronounce(forWord: (self.wordItem?.word)!, { (proItem) in
-                
-                self.proItem = proItem
-                
-                
-            })
-            
+//        NetworkRequests.requestWOTD { (wordItem) in
+//
+//            self.wordItem = wordItem
+//            print("\(String(describing: self.wordItem?.word))REQUEST WOTD")
+//
+//            NetworkRequests.requestPronounce(forWord: (self.wordItem?.word)!, { (proItem) in
+//
+//                self.proItem = proItem
+//
+//
+//            })
+        
         }
         
 //        NetworkRequests.requestPronounce { (proItem) in
@@ -40,7 +54,7 @@ class LandingVC: UIViewController {
         
         
         
-    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                 
@@ -51,4 +65,5 @@ class LandingVC: UIViewController {
     }
 
     
+
 }
