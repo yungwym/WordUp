@@ -11,59 +11,53 @@ import UIKit
 class LandingVC: UIViewController {
     
     //MARK: Variables & Constants
-    var wordItem: WordEntry.FullWordInfo?
-    var proItem: [PronounceEntry]?
-    
-    
-    var wordDetails: WordAPI.WordWithDetails?
-    var wordList: WordAPI.WordList?
+
+    var wordDetails: WordEntry?
+    var wordList = [String]()
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        WordAPI.requestWORDSLIST(forWord: "tween") { (wordList) in
+        
+        
+
+    }
+        
+        
+    
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+////        let tabBar = segue.destination as? UITabBarController
+////        let wotdVC = tabBar?.viewControllers?.first as? WOTDVC
+////
+//        
+//    }
+    
+    
+    func wotdRequest() {
+        
+        guard let wordListPath = Bundle.main.path(forResource: "WordListMK2", ofType: "txt"), let list = try? String(contentsOfFile: wordListPath) else  {
             
-            self.wordList = wordList
+            return
         }
         
+        wordList = list.components(separatedBy: "\n")
         
-        WordAPI.requestWORDSAPI(forWord: "tween") { (wordDetails) in
+        let randomWord = wordList[Int(arc4random_uniform(UInt32(wordList.count)))]
+        
+        NetworkRequests.requestWORDSAPI(forWord: randomWord) { (wordDetails) in
             
             self.wordDetails = wordDetails
         }
-
-//        NetworkRequests.requestWOTD { (wordItem) in
-//
-//            self.wordItem = wordItem
-//            print("\(String(describing: self.wordItem?.word))REQUEST WOTD")
-//
-//            NetworkRequests.requestPronounce(forWord: (self.wordItem?.word)!, { (proItem) in
-//
-//                self.proItem = proItem
-//
-//
-//            })
-        
-        }
-        
-//        NetworkRequests.requestPronounce { (proItem) in
-//
-//            self.proItem = proItem
-//            print("REQUEST PRONOUNCE")
-//        }
-        
-        
-        
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-                
-        let tabBar = segue.destination as? UITabBarController
-        let wotdVC = tabBar?.viewControllers?.first as? WOTDVC
-        wotdVC?.wotd = self.wordItem
-        
     }
 
     
-
+    @IBAction func requestTapped(_ sender: UIButton) {
+        
+        
+        wotdRequest()
+    }
+    
 }

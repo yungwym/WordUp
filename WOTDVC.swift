@@ -12,7 +12,6 @@ class WOTDVC: UIViewController {
     
     //MARK: Variables & Constants
     
-    var wotd: WordEntry.FullWordInfo?
     
     
     //MARK: Outlets
@@ -26,12 +25,6 @@ class WOTDVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        wordLabel.text = wotd?.word
-        noteLabel.text = wotd?.note
-        defLabel.text = wotd?.definitions[0].text
-        exLabel.text = wotd?.examples[0].text
-        
-    
         // Do any additional setup after loading the view.
     }
 }
