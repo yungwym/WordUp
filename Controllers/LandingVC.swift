@@ -13,11 +13,17 @@ class LandingVC: UIViewController {
     //MARK: Variables & Constants
 
     var wordDetails: WordEntry?
+    var antonymsDetails: AntonymInfo?
+    var rhymesDetails: RhymesInfo?
+    
+//    var wotdData: WOTDData?
     var wordList = [String]()
     
     //MARK: Outlets
     @IBOutlet weak var tapToBeginButton: UIButton!
     @IBOutlet weak var circleImageView: UIImageView!
+    
+    
     
    
     override func viewDidLoad() {
@@ -46,6 +52,8 @@ class LandingVC: UIViewController {
         let tabBar = segue.destination as? UITabBarController
         let wotdVC = tabBar?.viewControllers?.first as? WOTDVC
         wotdVC?.wordEntry = self.wordDetails
+        wotdVC?.antonyms = self.antonymsDetails
+        wotdVC?.rhymes = self.rhymesDetails
     }
     
     
@@ -63,8 +71,23 @@ class LandingVC: UIViewController {
         NetworkRequests.requestWORDSAPI(forWord: randomWord) { (wordDetails) in
             
             self.wordDetails = wordDetails
+            
         }
+        
+        NetworkRequests.requestRhymes(forWord: randomWord) { (rhymesDetails) in
+            
+            self.rhymesDetails = rhymesDetails
+        }
+        
+        NetworkRequests.requestAntnoyms(forWord: randomWord) { (antonymDetails) in
+            
+            self.antonymsDetails = antonymDetails
+        }
+        
+        
     }
+    
+        
 
     
 //    func apiTest() {
