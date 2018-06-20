@@ -20,7 +20,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mg7-mY-mpD">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mg7-mY-mpD">
                                 <rect key="frame" x="152" y="583" width="70" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Request">
@@ -78,7 +78,7 @@
             </objects>
             <point key="canvasLocation" x="24.800000000000001" y="30.134932533733135"/>
         </scene>
-        <!--Word of the Day-->
+        <!--WOTDVC-->
         <scene sceneID="CCb-ZY-Xcw">
             <objects>
                 <viewController id="NBG-0N-qob" customClass="WOTDVC" customModule="WordUp" customModuleProvider="target" sceneMemberID="viewController">
@@ -92,7 +92,7 @@
                                 <color key="textColor" red="0.24313725490196078" green="0.41568627450980394" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEFINITION" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1w-7k-eKZ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEFINITION" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1w-7k-eKZ">
                                 <rect key="frame" x="50" y="190" width="275" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -131,7 +131,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PEJ-ny-wmf">
-                                                    <rect key="frame" x="28" y="22.5" width="244" height="31.5"/>
+                                                    <rect key="frame" x="28" y="22.5" width="263" height="31.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                     <color key="textColor" red="0.24313725490196078" green="0.41568627450980389" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -177,12 +177,24 @@
                                 <color key="textColor" red="0.57045853140000002" green="0.57047235969999999" blue="0.57046490910000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="821-4n-Cyc">
+                                <rect key="frame" x="289" y="75" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="Lbv-Rp-NzV"/>
+                                    <constraint firstAttribute="height" constant="36" id="y6I-qe-Ki7"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="Star"/>
+                                <connections>
+                                    <action selector="favTapped:" destination="NBG-0N-qob" eventType="touchUpInside" id="JwD-Oi-w03"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="baH-5q-cer" firstAttribute="trailing" secondItem="MZW-vE-51T" secondAttribute="trailing" id="1zr-dV-Edg"/>
                             <constraint firstItem="w2F-nH-Sit" firstAttribute="leading" secondItem="baH-5q-cer" secondAttribute="leading" constant="50" id="2RA-Vm-hw9"/>
                             <constraint firstItem="5jR-og-9SL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="baH-5q-cer" secondAttribute="leading" id="5lm-ig-tUn"/>
+                            <constraint firstItem="821-4n-Cyc" firstAttribute="top" secondItem="baH-5q-cer" secondAttribute="top" constant="55" id="6b2-jG-fWa"/>
                             <constraint firstItem="QNm-g8-p4H" firstAttribute="top" secondItem="baH-5q-cer" secondAttribute="top" constant="55" id="75Z-V3-DQX"/>
                             <constraint firstItem="c8G-au-XF4" firstAttribute="top" secondItem="QNm-g8-p4H" secondAttribute="bottom" constant="4" id="9ST-N1-lfA"/>
                             <constraint firstItem="Mb1-Ur-z5m" firstAttribute="top" secondItem="c8G-au-XF4" secondAttribute="bottom" constant="8" id="9y9-1z-cEz"/>
@@ -191,6 +203,7 @@
                             <constraint firstItem="q1w-7k-eKZ" firstAttribute="top" secondItem="Mb1-Ur-z5m" secondAttribute="bottom" constant="28" id="CGO-rf-Wq8"/>
                             <constraint firstItem="baH-5q-cer" firstAttribute="bottom" secondItem="MZW-vE-51T" secondAttribute="bottom" constant="20" id="GdW-9x-tX8"/>
                             <constraint firstItem="5jR-og-9SL" firstAttribute="centerX" secondItem="BfR-nP-tcj" secondAttribute="centerX" id="GpF-No-0rL"/>
+                            <constraint firstItem="baH-5q-cer" firstAttribute="trailing" secondItem="821-4n-Cyc" secondAttribute="trailing" constant="50" id="N93-TZ-Me1"/>
                             <constraint firstItem="q1w-7k-eKZ" firstAttribute="leading" secondItem="baH-5q-cer" secondAttribute="leading" constant="50" id="Pc6-YG-U5h"/>
                             <constraint firstItem="MZW-vE-51T" firstAttribute="top" secondItem="5jR-og-9SL" secondAttribute="bottom" constant="16" id="QfU-B0-OPv"/>
                             <constraint firstItem="baH-5q-cer" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5jR-og-9SL" secondAttribute="trailing" id="QiZ-PI-bOA"/>
@@ -207,12 +220,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="baH-5q-cer"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Word of the Day" image="Calendar Grey" selectedImage="Calendar Grey" id="zVO-uk-Bnt"/>
+                    <tabBarItem key="tabBarItem" title="" image="Calendar Grey" selectedImage="Calendar Grey" id="zVO-uk-Bnt"/>
                     <navigationItem key="navigationItem" id="KM4-SX-gSi"/>
                     <connections>
                         <outlet property="collectionView" destination="MZW-vE-51T" id="J2k-Tr-wQP"/>
                         <outlet property="defLabel" destination="q1w-7k-eKZ" id="7Hq-yG-t4w"/>
                         <outlet property="exLabel" destination="w2F-nH-Sit" id="WsR-ke-O6G"/>
+                        <outlet property="favButton" destination="821-4n-Cyc" id="kjb-Gm-2DC"/>
                         <outlet property="pronounceLabel" destination="c8G-au-XF4" id="PZp-Kg-cPe"/>
                         <outlet property="segmentController" destination="5jR-og-9SL" id="PQN-r4-mJh"/>
                         <outlet property="speechLabel" destination="Mb1-Ur-z5m" id="yFN-hX-zH8"/>
@@ -253,7 +267,7 @@
                                                 <constraint firstAttribute="height" constant="29" id="5xG-EN-b6W"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" red="0.0" green="0.39215686274509803" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -284,8 +298,14 @@
                                 <segment title="All Words"/>
                                 <segment title="Favourites"/>
                             </segments>
+                            <connections>
+                                <action selector="segmentChanged:" destination="Oe4-0H-3fG" eventType="valueChanged" id="NCG-vr-PY5"/>
+                            </connections>
                         </segmentedControl>
                     </navigationItem>
+                    <connections>
+                        <outlet property="segmentControl" destination="ZHO-Hm-igC" id="8Ih-0A-Ht8"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8iN-98-juw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -317,7 +337,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEFINTION" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rua-Xy-p0y">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEFINTION" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rua-Xy-p0y">
                                 <rect key="frame" x="50" y="190" width="274" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -363,23 +383,7 @@
             </objects>
             <point key="canvasLocation" x="25" y="1621"/>
         </scene>
-        <!--Guess-->
-        <scene sceneID="3BX-67-cDc">
-            <objects>
-                <viewController id="Lhu-vy-mRm" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kFQ-RP-hif">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="cOo-nc-gSE"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Guess" image="Games Icon Grey" selectedImage="Games Icon Grey" id="h1F-9m-Xd1"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="B3E-7U-J4S" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1911.2" y="866.71664167916049"/>
-        </scene>
-        <!--Settings-->
+        <!--View Controller-->
         <scene sceneID="4Pw-n7-Hpq">
             <objects>
                 <viewController id="BkS-da-7fA" sceneMemberID="viewController">
@@ -389,46 +393,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Kuk-o8-zQ7"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="Settings Grey" selectedImage="Settings Grey" id="luH-ik-I4i"/>
+                    <tabBarItem key="tabBarItem" title="" image="Settings Grey" selectedImage="Settings Grey" id="luH-ik-I4i"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JgJ-0O-VZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3788" y="886.50674662668678"/>
-        </scene>
-        <!--Favourites-->
-        <scene sceneID="86Z-Bz-Xau">
-            <objects>
-                <collectionViewController id="jVd-Ag-xlK" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="vT3-dq-uP7">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0TC-zQ-zCi">
-                            <size key="itemSize" width="50" height="50"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="LkF-AZ-D1o">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </view>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="jVd-Ag-xlK" id="26a-yF-Aj6"/>
-                            <outlet property="delegate" destination="jVd-Ag-xlK" id="Ru7-Qq-L4v"/>
-                        </connections>
-                    </collectionView>
-                    <tabBarItem key="tabBarItem" title="Favourites" image="Fav Grey" selectedImage="Fav Grey" id="bmF-Hh-ElL"/>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0nK-RZ-zd2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2848.8000000000002" y="886.50674662668678"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Nye-7B-hDw">
@@ -443,8 +412,6 @@
                     <connections>
                         <segue destination="NBG-0N-qob" kind="relationship" relationship="viewControllers" id="Apm-Px-C2J"/>
                         <segue destination="qto-XS-469" kind="relationship" relationship="viewControllers" id="3kz-dJ-LeB"/>
-                        <segue destination="Lhu-vy-mRm" kind="relationship" relationship="viewControllers" id="0U1-0J-4Qd"/>
-                        <segue destination="jVd-Ag-xlK" kind="relationship" relationship="viewControllers" id="jMr-Re-ugS"/>
                         <segue destination="BkS-da-7fA" kind="relationship" relationship="viewControllers" id="a8c-dJ-Qgv"/>
                     </connections>
                 </tabBarController>
@@ -452,11 +419,11 @@
             </objects>
             <point key="canvasLocation" x="972" y="29.23538230884558"/>
         </scene>
-        <!--Dictionary-->
+        <!--Navigation Controller-->
         <scene sceneID="Uht-32-sFq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qto-XS-469" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Dictionary" image="BookIcon Grey" selectedImage="BookIcon Grey" id="cxY-oZ-FVa"/>
+                    <tabBarItem key="tabBarItem" title="" image="BookIcon Grey" selectedImage="BookIcon Grey" id="cxY-oZ-FVa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZFj-Uq-hKY">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -476,11 +443,10 @@
         <image name="Arrow" width="36" height="36"/>
         <image name="BookIcon Grey" width="34" height="22"/>
         <image name="Calendar Grey" width="28" height="30"/>
-        <image name="Fav Grey" width="36" height="34"/>
-        <image name="Games Icon Grey" width="33" height="19"/>
         <image name="Group" width="318" height="127"/>
         <image name="Oval" width="174" height="174"/>
         <image name="Settings Grey" width="30" height="30"/>
+        <image name="Star" width="36" height="34"/>
         <image name="Tap to Begin" width="111" height="22"/>
     </resources>
 </document>

@@ -22,10 +22,10 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     @IBOutlet weak var defLabel: UILabel!
     @IBOutlet weak var exLabel: UILabel!
     @IBOutlet weak var speechLabel: UILabel!
-    
     @IBOutlet weak var segmentController: UISegmentedControl!
-    
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var favButton: UIButton!
     
     
     override func viewDidLoad() {
@@ -102,6 +102,24 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         collectionView.reloadData()
         
     }
+    
+    @IBAction func favTapped(_ sender: UIButton) {
+        
+        favButton.imageView?.image = UIImage(named: "Filled Star")
+        
+        let fav = Favourite(context: PersistenceService.context)
+        
+        fav.word = wordEntry?.word
+        fav.speech = wordEntry?.results[0].partOfSpeech
+        fav.pronunce = wordEntry?.pronunciation.all
+        fav.definition = wordEntry?.results[0].definition
+     //   fav.example = wordEntry?.results[0].examples![0]
+        
+        PersistenceService.saveContext()
+        
+        print(fav.word ?? "No Fav")
+    }
+    
     
     
 }

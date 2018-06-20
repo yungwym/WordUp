@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DictionaryTVC: UITableViewController {
     
@@ -16,23 +17,22 @@ class DictionaryTVC: UITableViewController {
     var dictAntEntry: AntonymInfo?
     var dictRhymEntry: RhymesInfo?
     
-     let dispatchGroup = DispatchGroup()
+    let dispatchGroup = DispatchGroup()
+    
+    var favorites = [Favourite]()
+    
+    //Outlets
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+      
+        
         wordListConfig()
         
         self.tableView.rowHeight = 80
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+   
     }
     
     //MARK: Functions
@@ -62,40 +62,67 @@ class DictionaryTVC: UITableViewController {
 
         }
     }
+    
     func getRhymeData(word: String) {
         dispatchGroup.enter()
         NetworkRequests.requestRhymes(forWord: word) { (dictRhymEntry) in
             self.dictRhymEntry = dictRhymEntry
             self.dispatchGroup.leave()
         }
-        
     }
     
 
     // MARK: TableView Delegate & Datasoure
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return (wordList?.count)!
+        
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            return (wordList?.count)!
+
+        case 1:
+            return favorites.count
+            
+        default:
+            break
+        }
+        return 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let dictCell = tableView.dequeueReusableCell(withIdentifier: "dictionaryCell", for: indexPath) as! DictionaryCell
-        dictCell.wordLabel.text = wordList?[indexPath.row].capitalized
+        
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+              dictCell.wordLabel.text = wordList?[indexPath.row].capitalized
+
+        case 1:
+            dictCell.wordLabel.text = favorites[indexPath.row].word?.capitalized
+            
+        default:
+            break
+        }
         return dictCell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let passingWord = wordList![indexPath.row]
+        let passingWord: String
         
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            passingWord = wordList![indexPath.row]
+        case 1:
+            passingWord = favorites[indexPath.row].word!
+        default:
+            return
+        }
         getWordData(word: passingWord)
         getAntonymData(word: passingWord)
         getRhymeData(word: passingWord)
@@ -113,6 +140,21 @@ class DictionaryTVC: UITableViewController {
             }
         }
     }
+    
+    //MARK: Actions
+    
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        
+        let fetchFav: NSFetchRequest<Favourite> = Favourite.fetchRequest()
+        do {
+            
+            let favs = try PersistenceService.context.fetch(fetchFav)
+            self.favorites = favs
+        } catch {}
+        
+        self.tableView.reloadData()
+    }
+    
     
 
     /*

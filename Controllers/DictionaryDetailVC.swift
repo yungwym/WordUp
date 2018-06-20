@@ -23,6 +23,8 @@ class DictionaryDetailVC: UIViewController {
     @IBOutlet weak var definitionLabel: UILabel!
     @IBOutlet weak var exLabel: UILabel!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
