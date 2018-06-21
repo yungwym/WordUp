@@ -8,22 +8,6 @@
 
 import Foundation
 
-
-//MARK: WOTD Required Info
-
-//struct WOTDData {
-//
-//    var word: String
-//    var pronunce: String
-//    var speech: String
-//    var def: String
-//    var ex: String
-//
-//    var synonyms: [String]
-//    var antnoyms: [String]
-//    var ryhmes: [String]
-//}
-
 //MARK: WordEntry Model
 
 struct WordEntry: Decodable {

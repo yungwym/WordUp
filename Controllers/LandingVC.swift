@@ -19,6 +19,8 @@ class LandingVC: UIViewController {
 //    var wotdData: WOTDData?
     var wordList = [String]()
     
+      let dispatchGroup = DispatchGroup()
+    
     //MARK: Outlets
     @IBOutlet weak var tapToBeginButton: UIButton!
     @IBOutlet weak var circleImageView: UIImageView!
@@ -59,6 +61,8 @@ class LandingVC: UIViewController {
     
     func wotdRequest() {
         
+        dispatchGroup.enter()
+        
         guard let wordListPath = Bundle.main.path(forResource: "WordListMK2", ofType: "txt"), let list = try? String(contentsOfFile: wordListPath) else  {
             
             return
@@ -77,11 +81,18 @@ class LandingVC: UIViewController {
         NetworkRequests.requestRhymes(forWord: randomWord) { (rhymesDetails) in
             
             self.rhymesDetails = rhymesDetails
+            
         }
         
         NetworkRequests.requestAntnoyms(forWord: randomWord) { (antonymDetails) in
             
             self.antonymsDetails = antonymDetails
+            self.dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            
+            self.performSegue(withIdentifier: "go", sender: nil)
         }
         
         

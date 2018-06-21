@@ -15,6 +15,8 @@ class DictionaryDetailVC: UIViewController {
     var antonyms: AntonymInfo?
     var rhymes: RhymesInfo?
     
+    var show = true
+    
     //MARK: Outlets
     
     @IBOutlet weak var wordLabel: UILabel!
@@ -23,20 +25,16 @@ class DictionaryDetailVC: UIViewController {
     @IBOutlet weak var definitionLabel: UILabel!
     @IBOutlet weak var exLabel: UILabel!
     
+    @IBOutlet weak var favButton: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         displayWordEntry()
-       
+        displayButton()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     //MARK: Functions
     
     func displayWordEntry() {
@@ -53,16 +51,26 @@ class DictionaryDetailVC: UIViewController {
         exLabel.text = ex
     }
     
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func displayButton() {
+        if (show == true) {
+            favButton.isHidden = false
+        } else {
+            favButton.isHidden = true
+        }
     }
-    */
-
+    
+    //MARK: Actions
+    
+    @IBAction func favTapped(_ sender: UIButton) {
+        
+        let fav = Favourite(context: PersistenceService.context)
+        
+        fav.word = wordEntry?.word
+        fav.speech = wordEntry?.results[0].partOfSpeech
+        fav.pronunce = wordEntry?.pronunciation.all
+        fav.definition = wordEntry?.results[0].definition
+        //   fav.example = wordEntry?.results[0].examples![0]
+        
+        PersistenceService.saveContext()
+    }
 }

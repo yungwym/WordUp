@@ -104,7 +104,7 @@ class DictionaryTVC: UITableViewController {
 
         case 1:
             dictCell.wordLabel.text = favorites[indexPath.row].word?.capitalized
-            
+    
         default:
             break
         }
@@ -130,11 +130,20 @@ class DictionaryTVC: UITableViewController {
         dispatchGroup.notify(queue: .main) {
             if let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "Detail") as? DictionaryDetailVC  {
                 
-                detailVC.wordEntry = self.dictWordEntry
-                
+                switch self.segmentControl.selectedSegmentIndex {
+                case 0:
+                    detailVC.wordEntry = self.dictWordEntry
+
+                case 1:
+                    detailVC.wordEntry = self.dictWordEntry
+                    detailVC.show = false
+                    
+                default:
+                    break
+                    
+                }
                 print(self.dictWordEntry?.word ?? "NO VALUE 4 DICT")
                 print(detailVC.wordEntry?.word ?? "NO VALUE 4 DETAIL")
-                
                 
                 self.navigationController?.pushViewController(detailVC, animated: true)
             }

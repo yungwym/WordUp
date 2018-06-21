@@ -16,6 +16,7 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     var rhymes: RhymesInfo?
     
     
+    
     //MARK: Outlets
     @IBOutlet weak var wordLabel: UILabel!
     @IBOutlet weak var pronounceLabel: UILabel!
@@ -48,6 +49,7 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         defLabel.text = wordEntry?.results[0].definition
         
         guard let ex = wordEntry?.results[0].examples?[0] else {
+            exLabel.text = ""
             print("No Example")
             return
         }
@@ -60,7 +62,13 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch segmentController.selectedSegmentIndex {
         case 0:
-            return (wordEntry?.results[0].synonyms?.count)!
+            
+            guard let syn = wordEntry?.results[0].synonyms else {
+                
+                print("No Syns")
+                return 0
+            }
+            return syn.count
         
         case 1:
             return (antonyms?.antonyms.count)!
@@ -116,10 +124,5 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
      //   fav.example = wordEntry?.results[0].examples![0]
         
         PersistenceService.saveContext()
-        
-        print(fav.word ?? "No Fav")
     }
-    
-    
-    
 }
