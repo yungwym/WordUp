@@ -13,9 +13,9 @@ class DictionaryTVC: UITableViewController {
     
     //MARK: Variables
     var wordList: [String]?
-    var dictWordEntry: WordEntry?
-    var dictAntEntry: AntonymInfo?
-    var dictRhymEntry: RhymesInfo?
+    var dictWordEntry: WordObj?
+    var dictAntEntry: AntonymObj?
+    var dictRhymEntry: RhymeObj?
     
     let dispatchGroup = DispatchGroup()
     

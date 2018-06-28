@@ -11,9 +11,9 @@ import UIKit
 class DictionaryDetailVC: UIViewController {
     
     //MARK: Variables
-    var wordEntry: WordEntry?
-    var antonyms: AntonymInfo?
-    var rhymes: RhymesInfo?
+    var wordEntry: WordObj?
+    var antonyms: AntonymObj?
+    var rhymes: RhymeObj?
     
     var show = true
     

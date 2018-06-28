@@ -8,56 +8,43 @@
 
 import UIKit
 
+var passingWord = String ()
+
 class LandingVC: UIViewController {
     
     //MARK: Variables & Constants
-
-    var wordDetails: WordEntry?
-    var antonymsDetails: AntonymInfo?
-    var rhymesDetails: RhymesInfo?
     
-//    var wotdData: WOTDData?
+    var wordDetails: WordObj?
+
+    
+    var synCell: SynonymCell?
+    var antCell: AntonymCell?
+    var rhyCell: RhymeCell?
+    
+    
+    //    var wotdData: WOTDData?
     var wordList = [String]()
     
-      let dispatchGroup = DispatchGroup()
+    let dispatchGroup = DispatchGroup()
     
     //MARK: Outlets
     @IBOutlet weak var tapToBeginButton: UIButton!
     @IBOutlet weak var circleImageView: UIImageView!
     
-    
-    
-   
     override func viewDidLoad() {
         super.viewDidLoad()
         
         wotdRequest()
-        
-        blink()
-        
     }
-        
+    
     //MARK: Functions
     
-    func blink() {
-        
-        UIView.animate(withDuration: 1.3, delay: 0.5, options: [.curveEaseIn, .repeat, .autoreverse], animations: {
-            
-            self.circleImageView.alpha = 0.0
-            
-        }, completion: nil)
-    }
-    
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        
         let tabBar = segue.destination as? UITabBarController
         let wotdVC = tabBar?.viewControllers?.first as? WOTDVC
         wotdVC?.wordEntry = self.wordDetails
-        wotdVC?.antonyms = self.antonymsDetails
-        wotdVC?.rhymes = self.rhymesDetails
     }
-    
     
     func wotdRequest() {
         
@@ -72,21 +59,12 @@ class LandingVC: UIViewController {
         
         let randomWord = wordList[Int(arc4random_uniform(UInt32(wordList.count)))]
         
+        passingWord = randomWord
+        
         NetworkRequests.requestWORDSAPI(forWord: randomWord) { (wordDetails) in
             
             self.wordDetails = wordDetails
             
-        }
-        
-        NetworkRequests.requestRhymes(forWord: randomWord) { (rhymesDetails) in
-            
-            self.rhymesDetails = rhymesDetails
-            
-        }
-        
-        NetworkRequests.requestAntnoyms(forWord: randomWord) { (antonymDetails) in
-            
-            self.antonymsDetails = antonymDetails
             self.dispatchGroup.leave()
         }
         
@@ -94,12 +72,7 @@ class LandingVC: UIViewController {
             
             self.performSegue(withIdentifier: "go", sender: nil)
         }
-        
-        
     }
-    
-        
-
     
 //    func apiTest() {
 //
