@@ -79,7 +79,6 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         
         infoCollectionView.isPagingEnabled = true
         infoCollectionView.showsHorizontalScrollIndicator = false
-        
         infoCollectionView.backgroundColor = .white
         //collectionView.centerYAnchor.constraint(equalTo: menuBar.centerYAnchor, constant: 40).isActive = true
         infoCollectionView.topAnchor.constraint(equalTo: menuBar.bottomAnchor, constant: 4).isActive = true

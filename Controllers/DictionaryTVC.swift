@@ -94,22 +94,22 @@ class DictionaryTVC: UITableViewController {
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let dictCell = tableView.dequeueReusableCell(withIdentifier: "dictionaryCell", for: indexPath) as! DictionaryCell
-        
-        switch segmentControl.selectedSegmentIndex {
-        case 0:
-              dictCell.wordLabel.text = wordList?[indexPath.row].capitalized
-
-        case 1:
-            dictCell.wordLabel.text = favorites[indexPath.row].word?.capitalized
-    
-        default:
-            break
-        }
-        return dictCell
-    }
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//        let dictCell = tableView.dequeueReusableCell(withIdentifier: "dictionaryCell", for: indexPath) as! DictionaryCell
+//
+//        switch segmentControl.selectedSegmentIndex {
+//        case 0:
+//              dictCell.wordLabel.text = wordList?[indexPath.row].capitalized
+//
+//        case 1:
+//            dictCell.wordLabel.text = favorites[indexPath.row].word?.capitalized
+//
+//        default:
+//            break
+//        }
+//        return dictCell
+//    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

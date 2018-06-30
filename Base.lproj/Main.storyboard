@@ -180,45 +180,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="dictionaryCell" rowHeight="80" id="Rlf-ke-0y8" customClass="DictionaryCell" customModule="WordUp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="80"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rlf-ke-0y8" id="Byh-VE-hav">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow" translatesAutoresizingMaskIntoConstraints="NO" id="bOw-ex-rWr">
-                                            <rect key="frame" x="323" y="26" width="28" height="28"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="28" id="RPW-eX-9SY"/>
-                                                <constraint firstAttribute="width" constant="28" id="idM-jT-BBs"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyZ-sa-360">
-                                            <rect key="frame" x="82.5" y="25.5" width="210" height="29"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="33r-tP-foG"/>
-                                                <constraint firstAttribute="height" constant="29" id="5xG-EN-b6W"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                            <color key="textColor" red="0.0" green="0.39215686274509803" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="jyZ-sa-360" firstAttribute="centerX" secondItem="Byh-VE-hav" secondAttribute="centerX" id="0n8-vM-mQ3"/>
-                                        <constraint firstItem="jyZ-sa-360" firstAttribute="centerY" secondItem="Byh-VE-hav" secondAttribute="centerY" id="WRg-yX-dXe"/>
-                                        <constraint firstItem="bOw-ex-rWr" firstAttribute="centerY" secondItem="Byh-VE-hav" secondAttribute="centerY" id="Yge-Q9-KjX"/>
-                                        <constraint firstAttribute="trailing" secondItem="bOw-ex-rWr" secondAttribute="trailing" constant="24" id="eWb-LH-IDQ"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="arrowImageView" destination="bOw-ex-rWr" id="aa6-oW-6eR"/>
-                                    <outlet property="wordLabel" destination="jyZ-sa-360" id="KH4-DH-C51"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Oe4-0H-3fG" id="Pj6-sQ-RBx"/>
                             <outlet property="delegate" destination="Oe4-0H-3fG" id="GuI-8Z-oal"/>
@@ -244,7 +205,38 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8iN-98-juw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="964" y="886.50674662668678"/>
+            <point key="canvasLocation" x="-505" y="905"/>
+        </scene>
+        <!--DictionaryVC-->
+        <scene sceneID="6eO-wt-sGS">
+            <objects>
+                <viewController id="pLH-Lh-dB8" customClass="DictionaryVC" customModule="WordUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9E9-aG-392">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0p7-fH-D3u">
+                                <rect key="frame" x="25" y="25" width="325" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.27843137254901962" green="0.45882352941176469" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0p7-fH-D3u" firstAttribute="top" secondItem="9E9-aG-392" secondAttribute="top" constant="25" id="5Bc-ln-KnD"/>
+                            <constraint firstItem="d2z-QG-7fd" firstAttribute="bottom" secondItem="0p7-fH-D3u" secondAttribute="bottom" constant="25" id="FqX-FQ-KPX"/>
+                            <constraint firstItem="0p7-fH-D3u" firstAttribute="leading" secondItem="d2z-QG-7fd" secondAttribute="leading" constant="25" id="Wgv-HS-gH8"/>
+                            <constraint firstItem="d2z-QG-7fd" firstAttribute="trailing" secondItem="0p7-fH-D3u" secondAttribute="trailing" constant="25" id="Xuu-qG-ZZK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="d2z-QG-7fd"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="BookIcon" selectedImage="BookIcon" id="R3Q-ab-a1q"/>
+                    <connections>
+                        <outlet property="secondaryBackgroundView" destination="0p7-fH-D3u" id="93j-GV-Eub"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QTr-Cg-Xuj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="572" y="838.83058470764627"/>
         </scene>
         <!--Dictionary DetailVC-->
         <scene sceneID="Rvh-O3-Pus">
@@ -360,7 +352,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="NBG-0N-qob" kind="relationship" relationship="viewControllers" id="Apm-Px-C2J"/>
-                        <segue destination="qto-XS-469" kind="relationship" relationship="viewControllers" id="3kz-dJ-LeB"/>
+                        <segue destination="pLH-Lh-dB8" kind="relationship" relationship="viewControllers" id="SSL-y3-htL"/>
                         <segue destination="BkS-da-7fA" kind="relationship" relationship="viewControllers" id="a8c-dJ-Qgv"/>
                     </connections>
                 </tabBarController>
@@ -385,11 +377,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zlo-cm-Y2s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="24.800000000000001" y="886.50674662668678"/>
+            <point key="canvasLocation" x="-1220" y="906"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Arrow" width="36" height="36"/>
+        <image name="BookIcon" width="34" height="22"/>
         <image name="BookIcon Grey" width="34" height="22"/>
         <image name="Calendar Grey" width="28" height="30"/>
         <image name="Launch Final" width="375" height="667"/>
