@@ -19,16 +19,24 @@ class DictionaryCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSo
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .white
+        cv.backgroundColor = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0)
         cv.dataSource = self
         cv.delegate = self
         return cv
     } ()
     
+    lazy var warningLabel: UILabel = {
+        let wL = UILabel()
+        wL.translatesAutoresizingMaskIntoConstraints = false
+        wL.text = "Hmmmm, looks like your have no favourites yet"
+        wL.textColor = .black
+        wL.textAlignment = .center
+        wL.numberOfLines = 3
+        return wL
+    } ()
+    
     override func setUpViews() {
         super.setUpViews()
-        
-        backgroundColor = .purple
         
         addSubview(dfCollectionView)
         dfCollectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -41,6 +49,13 @@ class DictionaryCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSo
         
         dfCollectionView.register(DFEntryCell.self, forCellWithReuseIdentifier: dfEntryCellID)
         
+        //dfCollectionView.addSubview(warningLabel)
+        
+//        warningLabel.topAnchor.constraint(equalTo: dfCollectionView.topAnchor, constant: 20.0).isActive = true
+//        warningLabel.centerXAnchor.constraint(equalTo: dfCollectionView.centerXAnchor).isActive = true
+//        warningLabel.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
+        
+        
         fetchData()
     }
     
@@ -52,6 +67,7 @@ class DictionaryCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSo
             return
         }
         wordArray = list.components(separatedBy: "\n")
+        wordArray.removeLast()
         dfCollectionView.reloadData()
     }
     
@@ -85,7 +101,7 @@ class DictionaryCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 8)
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 12)
     }
     
     

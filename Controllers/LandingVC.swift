@@ -8,6 +8,7 @@
 
 import UIKit
 
+let myBlue = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0)
 var passingWord = String ()
 
 class LandingVC: UIViewController {

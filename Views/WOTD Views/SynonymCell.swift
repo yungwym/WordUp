@@ -21,7 +21,7 @@ class SynonymCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSourc
         let layout = UICollectionViewFlowLayout()
         let sarCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
         sarCV.translatesAutoresizingMaskIntoConstraints = false
-        sarCV.backgroundColor = .white
+        sarCV.backgroundColor = myBlue
         sarCV.delegate = self
         sarCV.dataSource = self
         return sarCV

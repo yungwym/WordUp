@@ -20,11 +20,6 @@ class FavouritesCell: DictionaryCell {
     override func setUpViews() {
         super.setUpViews()
         
-        fetchData()
-    }
-    
-    override func fetchData() {
-        
         let fetchFav: NSFetchRequest<Favourite> = Favourite.fetchRequest()
         do {
             
@@ -36,7 +31,16 @@ class FavouritesCell: DictionaryCell {
                 favArray.append(word.word!)
             }
         } catch {}
-        self.dfCollectionView.reloadData()
+        
+        
         wordArray = favArray
+        self.dfCollectionView.reloadData()
+        
+//        fetchData()
+    }
+    
+    override func fetchData() {
+        
+       
     }
 }

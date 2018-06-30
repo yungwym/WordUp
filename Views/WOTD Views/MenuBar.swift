@@ -13,6 +13,8 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     //MARK: Variables
     let cellId = "cellID"
     let imageArray = ["Syn. 16","Ant. 16","Rhy. 16"]
+    
+    let titleArray = ["Synonyms","Antonyms","Rhymes"]
     var horizontalBarLeftAnchorConstraint: NSLayoutConstraint?
     
     var wotdController: WOTDVC?
@@ -39,7 +41,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func setupHorizontalBar() {
         
         let horizontalBarView = UIView()
-        horizontalBarView.backgroundColor = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0)
+        horizontalBarView.backgroundColor = myBlue
         horizontalBarView.layer.cornerRadius = 3.0
         horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(horizontalBarView)
@@ -66,7 +68,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         cv.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         cv.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
         cv.layer.cornerRadius = 3.0
-        cv.layer.borderColor = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0).cgColor
+        cv.layer.borderColor = myBlue.cgColor
         cv.layer.borderWidth = 0.75
         cv.delegate = self
         cv.dataSource = self
@@ -82,8 +84,9 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCell
         
-        cell.imageView.image = UIImage(named: imageArray[indexPath.item])?.withRenderingMode(.alwaysTemplate)
-        cell.tintColor = UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+        //cell.imageView.image = UIImage(named: imageArray[indexPath.item])?.withRenderingMode(.alwaysTemplate)
+        cell.titleLabel.text = titleArray[indexPath.item]
+        cell.titleLabel.tintColor = .green
         
         return cell
     }
@@ -122,26 +125,42 @@ class MenuCell: BaseCell {
         return iv
     }()
     
+    //Setup Label
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font.withSize(10.0)
+        label.text = "XXX"
+        return label
+    } ()
+    
     override func setUpViews() {
         super.setUpViews()
         
         backgroundColor = UIColor.white
 
-        addSubview(imageView)
-        imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+//        addSubview(imageView)
+//        imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+//        imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        addSubview(titleLabel)
+        titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+    
     }
     
     //Set Cell Highlighted and Selected Color
     override var isHighlighted: Bool {
         didSet {
-            imageView.tintColor = isHighlighted ?  UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0) : UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+            //imageView.tintColor = isHighlighted ?  UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0) : UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+            titleLabel.tintColor = isHighlighted ? myBlue : .green
         }
     }
     
     override var isSelected: Bool {
         didSet{
-            imageView.tintColor = isSelected ?  UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0) : UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+           // imageView.tintColor = isSelected ?  UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0) : UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+            titleLabel.tintColor = isSelected ? myBlue : .green
         }
     }
 }

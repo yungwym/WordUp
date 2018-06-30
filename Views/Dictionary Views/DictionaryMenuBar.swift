@@ -10,7 +10,7 @@ import UIKit
 
 class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    let imageArry = ["DictionaryBar","FavouritesBar"]
+    let imageArry = ["DictionaryBarSmaller Copy","Group 2"]
     let dictCellID = "dictCellID"
     var horizontalBarLeftAnchorConstraint: NSLayoutConstraint?
     var dictionaryVC : DictionaryVC?
@@ -93,6 +93,8 @@ class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         dictionaryVC?.scrollToMenuIndex(menuIndex: indexPath.item)
+        
+        
     }
 
     

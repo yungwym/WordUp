@@ -72,7 +72,7 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
         dictCollectionView.isPagingEnabled = true
         dictCollectionView.showsHorizontalScrollIndicator = false
         dictCollectionView.layer.cornerRadius = 3.0
-        dictCollectionView.backgroundColor = .gray
+        dictCollectionView.backgroundColor = myBlue
         
         dictCollectionView.topAnchor.constraint(equalTo: dictMenuBar.bottomAnchor, constant: 8.0).isActive = true
         dictCollectionView.bottomAnchor.constraint(equalTo: secondaryBackgroundView.bottomAnchor, constant: -8.0).isActive = true
