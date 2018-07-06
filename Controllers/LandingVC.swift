@@ -14,24 +14,17 @@ var passingWord = String ()
 class LandingVC: UIViewController {
     
     //MARK: Variables & Constants
-    
     var wordDetails: WordObj?
-
-    
     var synCell: SynonymCell?
     var antCell: AntonymCell?
     var rhyCell: RhymeCell?
-    
     
     //    var wotdData: WOTDData?
     var wordList = [String]()
     
     let dispatchGroup = DispatchGroup()
     
-    //MARK: Outlets
-    @IBOutlet weak var tapToBeginButton: UIButton!
-    @IBOutlet weak var circleImageView: UIImageView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

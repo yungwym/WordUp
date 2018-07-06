@@ -12,13 +12,17 @@ import CoreData
 class FavouritesCell: DictionaryCell {
     
     var favourites = [Favourite]()
-    
     var favArray = [String]()
-    
     let favCellID = "favCellID"
     
     override func setUpViews() {
         super.setUpViews()
+        
+        fetchData()
+    
+    }
+    
+    override func fetchData() {
         
         let fetchFav: NSFetchRequest<Favourite> = Favourite.fetchRequest()
         do {
@@ -29,18 +33,10 @@ class FavouritesCell: DictionaryCell {
             for word in favourites {
                 
                 favArray.append(word.word!)
+                wordArray = favArray
             }
         } catch {}
         
-        
-        wordArray = favArray
-        self.dfCollectionView.reloadData()
-        
-//        fetchData()
-    }
-    
-    override func fetchData() {
-        
-       
+        dfCollectionView.reloadData()
     }
 }

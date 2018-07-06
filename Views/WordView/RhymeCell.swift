@@ -29,7 +29,6 @@ class RhymeCell: SynonymCell {
                 return
             }
             self.wordArray = rhymeArray
-            
             self.sarCollectionView.reloadData()
         }
     }

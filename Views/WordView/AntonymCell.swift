@@ -30,9 +30,7 @@ class AntonymCell: SynonymCell {
                 self.wordArray = ["Sorry, we were unable to find any Antonyms for \(passingWord)"]
                 return
             }
-            self.wordArray = antArray
-            print(self.wordArray)
-            
+            self.wordArray = antArray            
             self.sarCollectionView.reloadData()
         }
     }

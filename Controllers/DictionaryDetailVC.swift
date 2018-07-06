@@ -12,6 +12,7 @@ class DictionaryDetailVC: UIViewController {
     
     //MARK: Variables
     var wordEntry: WordObj?
+    var synonyms: SynonymObj?
     var antonyms: AntonymObj?
     var rhymes: RhymeObj?
     

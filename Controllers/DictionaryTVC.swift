@@ -146,6 +146,7 @@ class DictionaryTVC: UITableViewController {
                 print(detailVC.wordEntry?.word ?? "NO VALUE 4 DETAIL")
                 
                 self.navigationController?.pushViewController(detailVC, animated: true)
+                
             }
         }
     }

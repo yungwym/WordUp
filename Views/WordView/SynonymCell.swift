@@ -40,7 +40,7 @@ class SynonymCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSourc
         sarCollectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         sarCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        sarCollectionView.register(SAREntryCell.self, forCellWithReuseIdentifier: sarEntryID)
+        sarCollectionView.register(EntryCell.self, forCellWithReuseIdentifier: sarEntryID)
     }
     //Functions
     func fetchData() {
@@ -54,10 +54,7 @@ class SynonymCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSourc
                 self.wordArray = ["Sorry, we were unable to find any Synonyms for \(passingWord)"]
                 return
             }
-            
-    
             self.wordArray = synArray
-            print(self.wordArray)
             self.sarCollectionView.reloadData()
         }
     }
@@ -72,11 +69,11 @@ class SynonymCell: BaseCell, UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sarEntryID, for: indexPath) as! SAREntryCell
-        cell.layer.cornerRadius = 3.0
-        cell.layer.borderWidth = 0.5
-        cell.layer.borderColor = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0).cgColor
-        cell.sarLabel.text = wordArray[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sarEntryID, for: indexPath) as! EntryCell
+        //cell.layer.cornerRadius = 3.0
+        //cell.layer.borderWidth = 0.1
+        //cell.layer.borderColor = UIColor.clear.cgColor
+        cell.titleLabel.text = wordArray[indexPath.item]
         return cell
     }
     

@@ -14,6 +14,7 @@ class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataS
     let dictCellID = "dictCellID"
     var horizontalBarLeftAnchorConstraint: NSLayoutConstraint?
     var dictionaryVC : DictionaryVC?
+   
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,8 +32,10 @@ class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataS
     func setUpHorizontalBar() {
       
         let horizontalBarView = UIView()
-        horizontalBarView.backgroundColor = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0)
+        horizontalBarView.backgroundColor = .clear
         horizontalBarView.layer.cornerRadius = 3.0
+        horizontalBarView.layer.borderColor = myBlue.cgColor
+        horizontalBarView.layer.borderWidth = 3.0
         horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(horizontalBarView)
         
@@ -41,7 +44,7 @@ class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataS
         
         horizontalBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         horizontalBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2).isActive = true
-        horizontalBarView.heightAnchor.constraint(equalToConstant: 4.0).isActive = true
+        horizontalBarView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         horizontalBarView.clipsToBounds = true
     }
     
@@ -57,7 +60,7 @@ class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataS
         cv.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         cv.layer.cornerRadius = 3.0
         cv.layer.borderColor = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0).cgColor
-        cv.layer.borderWidth = 0.75
+        cv.layer.borderWidth = 3.0
         cv.delegate = self
         cv.dataSource = self
         return cv
@@ -73,11 +76,8 @@ class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let dictCell = collectionView.dequeueReusableCell(withReuseIdentifier: dictCellID, for: indexPath) as! DictMenuCell
-        
         dictCell.imageView.image = UIImage(named: imageArry[indexPath.item])?.withRenderingMode(.alwaysTemplate)
-        
         return dictCell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -94,7 +94,8 @@ class DictionaryMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataS
         
         dictionaryVC?.scrollToMenuIndex(menuIndex: indexPath.item)
         
-        
+        let favCell = FavouritesCell()
+        favCell.fetchData()
     }
 
     
@@ -112,7 +113,7 @@ class DictMenuCell: BaseCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.image = UIImage(named: "Syn.")?.withRenderingMode(.alwaysTemplate)
-        iv.tintColor = UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+        iv.tintColor = .lightGray
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -130,13 +131,13 @@ class DictMenuCell: BaseCell {
     //Set Cell Highlighted and Selected Color
     override var isHighlighted: Bool {
         didSet {
-            imageView.tintColor = isHighlighted ?  UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0) : UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+            imageView.tintColor = isHighlighted ?  myBlue : .lightGray
         }
     }
     
     override var isSelected: Bool {
         didSet{
-            imageView.tintColor = isSelected ?  UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0) : UIColor(red: 39/255, green: 73/255, blue: 151/255, alpha: 1.0)
+            imageView.tintColor = isSelected ? myBlue : .lightGray
         }
     }
 }

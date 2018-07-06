@@ -22,6 +22,14 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
   //   let cellDolo = "cellID"
     
     //MARK: Blocks
+    lazy var wordView: WordView = {
+        let wv = WordView()
+        wv.translatesAutoresizingMaskIntoConstraints = false
+        wv.layer.cornerRadius = 6.0
+        return wv
+    } ()
+    
+    
     lazy var menuBar: MenuBar = {
         let mb = MenuBar()
         mb.wotdController = self
@@ -42,27 +50,17 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     }()
     
     //MARK: Outlets
-    @IBOutlet weak var wordLabel: UILabel!
-    @IBOutlet weak var pronounceLabel: UILabel!
-    @IBOutlet weak var defLabel: UILabel!
-    @IBOutlet weak var exLabel: UILabel!
-    @IBOutlet weak var speechLabel: UILabel!
-   
-    @IBOutlet weak var favButton: UIButton!
-    
-    @IBOutlet weak var secondaryBackgroundView: UIView!
     
     //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        displayWordEntry()
-        
+        setupWordView()
         setUpMenuBar()
-        
         setupCollectionView()
         
-        secondaryBackgroundView.layer.cornerRadius = 6.0
+        
+    //    secondaryBackgroundView.layer.cornerRadius = 6.0
     }
     
     //MARK: Functions
@@ -73,22 +71,35 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         infoCollectionView.scrollToItem(at: indexPath, at: [], animated: true)
     }
     
+    private func setupWordView() {
+        
+        view.addSubview(wordView)
+        wordView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        wordView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25.0).isActive = true
+        wordView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -75.0).isActive = true
+        wordView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25.0).isActive = true
+        wordView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25.0).isActive = true
+        
+        displayWordEntry()
+
+    }
     
     private func setupCollectionView() {
-        secondaryBackgroundView.addSubview(infoCollectionView)
         
+        wordView.addSubview(infoCollectionView)
+    
         infoCollectionView.isPagingEnabled = true
         infoCollectionView.showsHorizontalScrollIndicator = false
         infoCollectionView.backgroundColor = myBlue
         //collectionView.centerYAnchor.constraint(equalTo: menuBar.centerYAnchor, constant: 40).isActive = true
         infoCollectionView.topAnchor.constraint(equalTo: menuBar.bottomAnchor, constant: 4).isActive = true
-        infoCollectionView.bottomAnchor.constraint(equalTo: secondaryBackgroundView.bottomAnchor, constant: -25).isActive = true
+        infoCollectionView.bottomAnchor.constraint(equalTo: wordView.bottomAnchor, constant: -25).isActive = true
         infoCollectionView.centerXAnchor.constraint(equalTo: menuBar.centerXAnchor).isActive = true
         infoCollectionView.leadingAnchor.constraint(equalTo: menuBar.leadingAnchor).isActive = true
         //collectionView.heightAnchor.constraint(equalToConstant: 150.0).isActive = true
         infoCollectionView.layer.cornerRadius = 3.0
         infoCollectionView.layer.borderColor = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0).cgColor
-        infoCollectionView.layer.borderWidth = 0.75
+        infoCollectionView.layer.borderWidth = 3.0
         
         infoCollectionView.register(SynonymCell.self, forCellWithReuseIdentifier: synCellID)
         infoCollectionView.register(AntonymCell.self, forCellWithReuseIdentifier: antCellID)
@@ -97,28 +108,28 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     private func setUpMenuBar() {
         
-        view.addSubview(menuBar)
+        wordView.addSubview(menuBar)
         menuBar.clipsToBounds = true
-        menuBar.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        menuBar.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
+        menuBar.centerXAnchor.constraint(equalTo: wordView.centerXAnchor).isActive = true
+        menuBar.centerYAnchor.constraint(equalTo: wordView.centerYAnchor).isActive = true
+        menuBar.leadingAnchor.constraint(equalTo: wordView.leadingAnchor, constant: 25).isActive = true
         menuBar.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
 
     }
     
     func displayWordEntry() {
         
-        wordLabel.text = wordEntry?.word?.capitalized
-        pronounceLabel.text = "| \(wordEntry?.pronunciation.all ?? "" ) |"
-        speechLabel.text = wordEntry?.results[0].partOfSpeech
-        defLabel.text = wordEntry?.results[0].definition
-        
+        wordView.wordLabel.text = wordEntry?.word
+        wordView.pronounceLabel.text = "| \(wordEntry?.pronunciation.all ?? "" ) |"
+        wordView.speechLabel.text = wordEntry?.results[0].partOfSpeech
+        wordView.definitionLabel.text = wordEntry?.results[0].definition
+
         guard let ex = wordEntry?.results[0].examples?[0] else {
-            exLabel.text = ""
+            wordView.exampleLabel.text = ""
             print("No Example")
             return
         }
-        exLabel.text = ex
+        wordView.exampleLabel.text = ex
     }
     
     
@@ -169,7 +180,7 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     @IBAction func favTapped(_ sender: UIButton) {
         
-        favButton.imageView?.image = UIImage(named: "Filled Star")
+  //      favButton.imageView?.image = UIImage(named: "Filled Star")
         
         let fav = Favourite(context: PersistenceService.context)
         

@@ -13,10 +13,25 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
     //MARK: Variables & Constants
     let thisCellID = "thisCellID"
     
+    var wordObject: WordObj?
+    
+    let dispatchGroup = DispatchGroup()
+    
     let dictCellID = "dictCellID"
     let favCellID = "favCellID"
     
+    //MARK: Outlets
+    @IBOutlet weak var secondaryBackgroundView: UIView!
+    
     //MARK: Blocks
+    lazy var wordView: WordView = {
+        let wv = WordView()
+        wv.translatesAutoresizingMaskIntoConstraints = false
+        wv.layer.cornerRadius = 6.0
+        return wv
+    } ()
+    
+    
     lazy var dictMenuBar: DictionaryMenuBar = {
         let dmb = DictionaryMenuBar()
         dmb.dictionaryVC = self
@@ -36,27 +51,37 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
         return dVC
     } ()
     
-    //MARK: Outlets
-    @IBOutlet weak var secondaryBackgroundView: UIView!
-    
+    //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setUpDictMenuBar()
         setUpDictCollectionView()
+        setupWordView()
        
         secondaryBackgroundView.layer.cornerRadius = 6.0
-        
-        
-
     }
     
+    //Functions
     func scrollToMenuIndex(menuIndex: Int) {
         
         let indexPath = IndexPath(item: menuIndex, section: 0)
         dictCollectionView.scrollToItem(at: indexPath, at: [], animated: true)
     }
 
+    //MARK: Setup Views Functions
+    private func setupWordView() {
+        
+        view.addSubview(wordView)
+        wordView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        wordView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25.0).isActive = true
+        
+        wordView.widthAnchor.constraint(equalTo: secondaryBackgroundView.widthAnchor).isActive = true
+        wordView.heightAnchor.constraint(equalTo: secondaryBackgroundView.heightAnchor).isActive = true
+
+        wordView.leadingAnchor.constraint(equalTo: secondaryBackgroundView.trailingAnchor, constant: -45.0).isActive = true
+    }
+    
     private func setUpDictMenuBar() {
         secondaryBackgroundView.addSubview(dictMenuBar)
         dictMenuBar.clipsToBounds = true
