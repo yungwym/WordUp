@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class DictionaryVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     //MARK: Variables & Constants
     var detailWordObject: WordObj?
@@ -23,22 +23,18 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
     
     var sarArray = [String]()
     
-    
-    
     //MARK: Outlets
     @IBOutlet weak var secondaryBackgroundView: UIView!
     @IBOutlet weak var customSegmentedController: CustomSegmentedController!
-    @IBOutlet weak var dfCollectionView: UICollectionView!
+    @IBOutlet weak var dfTableView: UITableView!
     
     //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       
-        
-        dfCollectionView.backgroundColor = .white
-        dfCollectionView.delegate = self
-        dfCollectionView.dataSource = self
+        dfTableView.backgroundColor = .white
+        dfTableView.delegate = self
+        dfTableView.dataSource = self
         
         wordListConfig()
         setUpViews()
@@ -47,7 +43,6 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
     //MARK: Functions
     func setUpViews() {
         secondaryBackgroundView.layer.cornerRadius = 6.0
-        
     }
     
     func wordListConfig () {
@@ -57,7 +52,6 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
         wordList = list.components(separatedBy: "\n")
         wordList.removeLast()
     }
-    
     
     func getWordData(word: String) {
         dispatchGroup.enter()
@@ -98,8 +92,10 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
     }
 
-    //MARK: CollectionView Delegate & Datasource
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+    
+    //MARK: TableView Delegate & Datasource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch customSegmentedController.selectedSegmentIndex {
         case 0:
@@ -114,31 +110,31 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let dfCell = dfCollectionView.dequeueReusableCell(withReuseIdentifier: "dfEntry", for: indexPath) as! DFCell
+        let dfCell = dfTableView.dequeueReusableCell(withIdentifier: "dfCell", for: indexPath) as! DFCell
         
         switch customSegmentedController.selectedSegmentIndex {
         case 0:
             dfCell.wordLabel.text = wordList[indexPath.item]
         case 1:
             dfCell.wordLabel.text = favouritesArray[indexPath.item].word
-    
+            
         default:
             break
         }
         return dfCell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let selectedWord: String
-    
+        
         switch customSegmentedController.selectedSegmentIndex {
         case 0:
             selectedWord = wordList[indexPath.item]
             getWordData(word: selectedWord)
-           
+            
             
         case 1:
             selectedWord = favouritesArray[indexPath.item].word!
@@ -149,21 +145,15 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
         }
         
         dispatchGroup.notify(queue: .main) {
-                self.performSegue(withIdentifier: "detailPop", sender: nil)
+            self.performSegue(withIdentifier: "detailPop", sender: nil)
             print(self.sarArray)
         }
+        
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 8)
+ 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return tableView.frame.height / 8
     }
     
     //MARK: Actions
@@ -178,7 +168,7 @@ class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionView
             self.favouritesArray = favs
         } catch {}
     
-        dfCollectionView.reloadData()
+        dfTableView.reloadData()
     }
     
     

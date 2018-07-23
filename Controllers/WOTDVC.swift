@@ -19,18 +19,8 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     var favouriteSet = Set<String>()
     
-  //   let cellDolo = "cellID"
-    
-    //MARK: Blocks
-//    lazy var wordView: WordView = {
-//        let wv = WordView()
-//        wv.translatesAutoresizingMaskIntoConstraints = false
-//        wv.layer.cornerRadius = 6.0
-//        return wv
-//    } ()
     
     //MARK: Outlets
-    
     @IBOutlet weak var wordLabel: UILabel!
     @IBOutlet weak var pronounceLabel: UILabel!
     @IBOutlet weak var speechLabel: UILabel!
@@ -44,6 +34,9 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     @IBOutlet weak var favouriteBarView: UIView!
     @IBOutlet weak var favouriteBarLabel: UILabel!
+    
+    @IBOutlet weak var datelabel: UILabel!
+    
     
     //MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -66,7 +59,6 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     func fetchFavourites() {
         let fetchFav: NSFetchRequest<Favourite> = Favourite.fetchRequest()
         do {
-            
             let favs = try PersistenceService.context.fetch(fetchFav)
             
             for f in favs {
@@ -97,6 +89,11 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         secondaryView.layer.cornerRadius = 6
         
         favouriteBarView.alpha = 0
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMMM, dd, YYYY"
+        let dateString = formatter.string(from: Date())
+        datelabel.text = dateString
     }
    
     func displayWordEntry() {
@@ -202,10 +199,12 @@ class WOTDVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         favouriteBarLabel.text = status
         
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.datelabel.isHidden = true
             self.favouriteBarView.alpha = 100
             self.view.layoutIfNeeded()
         }) { (true) in
             UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                  self.datelabel.isHidden = false
                 self.favouriteBarView.alpha = 0
                 self.view.layoutIfNeeded()
             }, completion: nil)

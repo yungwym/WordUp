@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DFCell: UICollectionViewCell {
+class DFCell: UITableViewCell {
     
     
     @IBOutlet weak var wordLabel: UILabel!
