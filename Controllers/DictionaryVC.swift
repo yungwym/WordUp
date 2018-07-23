@@ -7,142 +7,183 @@
 //
 
 import UIKit
+import CoreData
 
 class DictionaryVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //MARK: Variables & Constants
-    let thisCellID = "thisCellID"
+    var detailWordObject: WordObj?
+    var detailAntonymObject: AntonymObj?
+    var detailRhymeObject: RhymeObj?
     
-    var wordObject: WordObj?
+    var favouritesArray = [Favourite]()
+    var wordList = [String]()
     
     let dispatchGroup = DispatchGroup()
     
-    let dictCellID = "dictCellID"
-    let favCellID = "favCellID"
+    var sarArray = [String]()
+    
+    
     
     //MARK: Outlets
     @IBOutlet weak var secondaryBackgroundView: UIView!
-    
-    //MARK: Blocks
-    lazy var wordView: WordView = {
-        let wv = WordView()
-        wv.translatesAutoresizingMaskIntoConstraints = false
-        wv.layer.cornerRadius = 6.0
-        return wv
-    } ()
-    
-    
-    lazy var dictMenuBar: DictionaryMenuBar = {
-        let dmb = DictionaryMenuBar()
-        dmb.dictionaryVC = self
-        dmb.translatesAutoresizingMaskIntoConstraints = false
-        dmb.layer.cornerRadius = 3.0
-        return dmb
-    } ()
-    
-    lazy var dictCollectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumLineSpacing = 0
-        let dVC = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        dVC.translatesAutoresizingMaskIntoConstraints = false
-        dVC.delegate = self
-        dVC.dataSource = self
-        return dVC
-    } ()
+    @IBOutlet weak var customSegmentedController: CustomSegmentedController!
+    @IBOutlet weak var dfCollectionView: UICollectionView!
     
     //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setUpDictMenuBar()
-        setUpDictCollectionView()
-        setupWordView()
        
+        
+        dfCollectionView.backgroundColor = .white
+        dfCollectionView.delegate = self
+        dfCollectionView.dataSource = self
+        
+        wordListConfig()
+        setUpViews()
+    }
+    
+    //MARK: Functions
+    func setUpViews() {
         secondaryBackgroundView.layer.cornerRadius = 6.0
+        
     }
     
-    //Functions
-    func scrollToMenuIndex(menuIndex: Int) {
+    func wordListConfig () {
+        guard let wordListPath = Bundle.main.path(forResource: "ReOne", ofType: "txt"), let list = try? String(contentsOfFile: wordListPath) else  {
+            return
+        }
+        wordList = list.components(separatedBy: "\n")
+        wordList.removeLast()
+    }
+    
+    
+    func getWordData(word: String) {
+        dispatchGroup.enter()
+        NetworkRequests.requestWORDSAPI(forWord: word) { (wordEntry) in
+            self.detailWordObject = wordEntry
+            self.dispatchGroup.leave()
+        }
+    }
+    
+    func getAntonymData(word: String) {
+        dispatchGroup.enter()
+        NetworkRequests.requestAntnoyms(forWord: word) { (antEntry) in
+            self.detailAntonymObject = antEntry
+            self.dispatchGroup.leave()
+        }
+    }
+    
+    func getRhymeData(word: String) {
+        dispatchGroup.enter()
+        NetworkRequests.requestRhymes(forWord: word) { (rhymEntry) in
+            self.detailRhymeObject = rhymEntry
+            self.dispatchGroup.leave()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let indexPath = IndexPath(item: menuIndex, section: 0)
-        dictCollectionView.scrollToItem(at: indexPath, at: [], animated: true)
+        let detailVC = segue.destination as? DictionaryDetailVC
+        detailVC?.wordEntry = self.detailWordObject
+        detailVC?.antonymsEntry = self.detailAntonymObject
+        detailVC?.rhymesEntry = self.detailRhymeObject
+        
+        switch customSegmentedController.selectedSegmentIndex {
+        case 1:
+            detailVC?.favButtonSelect = "FavDark"
+        default:
+            detailVC?.favButtonSelect = "FavLight"
+        }
     }
 
-    //MARK: Setup Views Functions
-    private func setupWordView() {
-        
-        view.addSubview(wordView)
-        wordView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        wordView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25.0).isActive = true
-        
-        wordView.widthAnchor.constraint(equalTo: secondaryBackgroundView.widthAnchor).isActive = true
-        wordView.heightAnchor.constraint(equalTo: secondaryBackgroundView.heightAnchor).isActive = true
-
-        wordView.leadingAnchor.constraint(equalTo: secondaryBackgroundView.trailingAnchor, constant: -45.0).isActive = true
-    }
-    
-    private func setUpDictMenuBar() {
-        secondaryBackgroundView.addSubview(dictMenuBar)
-        dictMenuBar.clipsToBounds = true
-        dictMenuBar.centerXAnchor.constraint(equalTo: secondaryBackgroundView.centerXAnchor).isActive = true
-        dictMenuBar.topAnchor.constraint(equalTo: secondaryBackgroundView.topAnchor, constant: 8.0).isActive = true
-        dictMenuBar.leadingAnchor.constraint(equalTo: secondaryBackgroundView.leadingAnchor, constant: 8.0).isActive = true
-        dictMenuBar.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-    }
-    
-    private func setUpDictCollectionView() {
-        
-        secondaryBackgroundView.addSubview(dictCollectionView)
-        dictCollectionView.isPagingEnabled = true
-        dictCollectionView.showsHorizontalScrollIndicator = false
-        dictCollectionView.layer.cornerRadius = 3.0
-        dictCollectionView.backgroundColor = myBlue
-        
-        dictCollectionView.topAnchor.constraint(equalTo: dictMenuBar.bottomAnchor, constant: 8.0).isActive = true
-        dictCollectionView.bottomAnchor.constraint(equalTo: secondaryBackgroundView.bottomAnchor, constant: -8.0).isActive = true
-        dictCollectionView.leadingAnchor.constraint(equalTo: dictMenuBar.leadingAnchor).isActive = true
-        dictCollectionView.centerXAnchor.constraint(equalTo: secondaryBackgroundView.centerXAnchor).isActive = true
-        
-        dictCollectionView.register(FavouritesCell.self, forCellWithReuseIdentifier: favCellID)
-        dictCollectionView.register(DictionaryCell.self, forCellWithReuseIdentifier: dictCellID)
-    }
-    
     //MARK: CollectionView Delegate & Datasource
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        dictMenuBar.horizontalBarLeftAnchorConstraint?.constant = scrollView.contentOffset.x / 2
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        let index = targetContentOffset.pointee.x / dictCollectionView.frame.width
-        let indexPath = IndexPath(item: Int(index), section: 0)
-        dictMenuBar.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 2
+        switch customSegmentedController.selectedSegmentIndex {
+        case 0:
+            return (wordList.count)
+            
+        case 1:
+            return (favouritesArray.count)
+            
+        default:
+            break
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        var identifer: String
+        let dfCell = dfCollectionView.dequeueReusableCell(withReuseIdentifier: "dfEntry", for: indexPath) as! DFCell
         
-        if indexPath.item == 1 {
-            identifer = favCellID
-        } else {
-            identifer = dictCellID
+        switch customSegmentedController.selectedSegmentIndex {
+        case 0:
+            dfCell.wordLabel.text = wordList[indexPath.item]
+        case 1:
+            dfCell.wordLabel.text = favouritesArray[indexPath.item].word
+    
+        default:
+            break
+        }
+        return dfCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let selectedWord: String
+    
+        switch customSegmentedController.selectedSegmentIndex {
+        case 0:
+            selectedWord = wordList[indexPath.item]
+            getWordData(word: selectedWord)
+           
+            
+        case 1:
+            selectedWord = favouritesArray[indexPath.item].word!
+            getWordData(word: selectedWord)
+            
+        default:
+            break
         }
         
-        let cell = dictCollectionView.dequeueReusableCell(withReuseIdentifier: identifer, for: indexPath)
-        return cell
+        dispatchGroup.notify(queue: .main) {
+                self.performSegue(withIdentifier: "detailPop", sender: nil)
+            print(self.sarArray)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 8)
+    }
+    
+    //MARK: Actions
+    
+    @IBAction func customSegmentValueChanged(_ sender: Any) {
         
         
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        let fetchFav: NSFetchRequest<Favourite> = Favourite.fetchRequest()
+        do {
+            
+            let favs = try PersistenceService.context.fetch(fetchFav)
+            self.favouritesArray = favs
+        } catch {}
+    
+        dfCollectionView.reloadData()
+    }
+    
+    
+    @IBAction func unwindToDictionaryVC(_ sender: UIStoryboardSegue) {
+        
+    
     }
 }

@@ -10,7 +10,8 @@ import Foundation
 import CoreData
 
 class PersistenceService {
-    
+
+    var nsObj = NSManagedObject()
     // MARK: - Core Data stack
     
     private init() {}
@@ -47,7 +48,41 @@ class PersistenceService {
     }()
     
     // MARK: - Core Data Saving support
+    //Create Favourite
+    static func createFavourite(wordObj: WordObj) {
+        
+        let fav = Favourite(context: context)
+        
+        fav.word = wordObj.word
+        fav.speech = wordObj.results[0].partOfSpeech
+        fav.pronunce = wordObj.pronunciation.all
+        fav.definition = wordObj.results[0].definition
+        //  fav.example = wordEntry?.results[0].examples![0]
+        saveContext()
+    }
+   
+    //Fetch Favourite with word Perdicate
+    static func fetchWithPredicate(word: String)-> Favourite? {
+        
+        let fetchRequest = NSFetchRequest<Favourite>(entityName: "Favourite")
+        let predicate = NSPredicate(format: "word == %@", word)
+        fetchRequest.predicate = predicate
+        let word = try! context.fetch(fetchRequest)
+        guard let returnedWord = word.first else { return nil}
+        print(returnedWord.word!)
+        return returnedWord
+    }
     
+    //Delete Favourite
+    static func delete(favourite: Favourite) {
+        context.delete(favourite)
+        print("Deleted \(String(describing: favourite.word))")
+        saveContext()
+    }
+    
+    
+    
+    //Save 
     static func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -62,9 +97,4 @@ class PersistenceService {
             }
         }
     }
-    
-    
-    
-    
-    
 }

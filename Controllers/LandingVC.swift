@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 let myBlue = UIColor(red: 71/255, green: 117/255, blue: 225/255, alpha: 1.0)
 var passingWord = String ()
@@ -14,10 +15,14 @@ var passingWord = String ()
 class LandingVC: UIViewController {
     
     //MARK: Variables & Constants
+    var landingWordCollection: WordCollection?
+    
+    
     var wordDetails: WordObj?
-    var synCell: SynonymCell?
-    var antCell: AntonymCell?
-    var rhyCell: RhymeCell?
+    var antonymDetails: AntonymObj?
+    var rhymeDetails: RhymeObj?
+    
+     var testWordObj: WordObj?
     
     //    var wotdData: WOTDData?
     var wordList = [String]()
@@ -31,69 +36,104 @@ class LandingVC: UIViewController {
         wotdRequest()
     }
     
-    //MARK: Functions
-    
+    //MARK: Functions    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let tabBar = segue.destination as? UITabBarController
         let wotdVC = tabBar?.viewControllers?.first as? WOTDVC
         wotdVC?.wordEntry = self.wordDetails
+        wotdVC?.antonymsEntry = self.antonymDetails
+        wotdVC?.rhymesEntry = self.rhymeDetails
     }
     
     func wotdRequest() {
         
-        dispatchGroup.enter()
+        guard let wordListPath = Bundle.main.path(forResource: "ReOne", ofType: "txt"), let list = try? String(contentsOfFile: wordListPath) else  {
+            return
+        }
         
-        guard let wordListPath = Bundle.main.path(forResource: "WordListMK2", ofType: "txt"), let list = try? String(contentsOfFile: wordListPath) else  {
+        wordList = list.components(separatedBy: "\n")
+        let randomWord = wordList[Int(arc4random_uniform(UInt32(wordList.count)))]
+        passingWord = randomWord
+     
+        getWordData(word: randomWord)
+        getAntonymData(word: randomWord)
+        getRhymeData(word: randomWord)
+
+        dispatchGroup.notify(queue: .main) {
+            self.performSegue(withIdentifier: "go", sender: nil)
+        }
+    }
+    
+    func getWordData(word: String) {
+        dispatchGroup.enter()
+        NetworkRequests.requestWORDSAPI(forWord: word) { (wDetails) in
+            self.wordDetails = wDetails
+            self.dispatchGroup.leave()
+        }
+    }
+    
+    func getAntonymData(word: String) {
+        dispatchGroup.enter()
+        NetworkRequests.requestAntnoyms(forWord: word) { (aDetails) in
+            self.antonymDetails = aDetails
+            self.dispatchGroup.leave()
+        }
+    }
+    
+    func getRhymeData(word: String) {
+        dispatchGroup.enter()
+        NetworkRequests.requestRhymes(forWord: word) { (rDetails) in
+            self.rhymeDetails = rDetails
+            self.dispatchGroup.leave()
+        }
+    }
+        
+    
+    func apiTest() {
+        
+        var incompleteWordsArray = [WordObj]()
+        var completeWordsArray = [String]()
+        
+        guard let wordListPath = Bundle.main.path(forResource: "2700", ofType: "txt"), let list = try? String(contentsOfFile: wordListPath) else  {
             
             return
         }
         
         wordList = list.components(separatedBy: "\n")
         
-        let randomWord = wordList[Int(arc4random_uniform(UInt32(wordList.count)))]
-        
-        passingWord = randomWord
-        
-        NetworkRequests.requestWORDSAPI(forWord: randomWord) { (wordDetails) in
+        for word in wordList {
             
-            self.wordDetails = wordDetails
+            let replaced = word.replacingOccurrences(of: "\\", with: "")
             
-            self.dispatchGroup.leave()
+            NetworkRequests.requestWORDSAPI(forWord: replaced) { (wordDetails) in
+                
+                self.testWordObj = wordDetails
+                
+                guard let word = self.testWordObj?.word, let pronun = self.testWordObj?.pronunciation.all, let speech = self.testWordObj?.results[0].partOfSpeech, let def = self.testWordObj?.results[0].definition, let ex = self.testWordObj?.results[0].examples?[0] else {
+                    
+                    incompleteWordsArray.append(self.testWordObj!)
+                    return
+                }
+                completeWordsArray.append(self.testWordObj!.word!)
+                
+                
+                print("INCOMPLETE: \(incompleteWordsArray.count)")
+                print("COMPLETE: \(completeWordsArray.count)")
+                print(completeWordsArray)
+                
+            }
         }
         
-        dispatchGroup.notify(queue: .main) {
-            
-            self.performSegue(withIdentifier: "go", sender: nil)
-        }
+        
     }
-    
-//    func apiTest() {
-//
-//        guard let wordListPath = Bundle.main.path(forResource: "2000", ofType: "txt"), let list = try? String(contentsOfFile: wordListPath) else  {
-//
-//            return
-//        }
-//
-//        wordList = list.components(separatedBy: "\n")
-//
-//        for word in wordList {
-//
-//        let replaced = word.replacingOccurrences(of: "\\", with: "")
-//
-//        NetworkRequests.requestWORDSAPI(forWord: replaced) { (wordDetails) in
-//
-//        }
-//
-//        }
-//    }
     
     
     //MARK: Actions
     
     @IBAction func requestTapped(_ sender: UIButton) {
        
-       // apiTest()
+        apiTest()
         
      //   wotdRequest()
     }

@@ -20,7 +20,7 @@ struct Results: Decodable {
     
     let definition: String?
     let partOfSpeech: String?
-   // let synonyms: [String]?
+    let synonyms: [String]?
   //  let typeOf: [String]?
   //  let hasTypes: [String]?
   //  let verbGroups: [String]?
